@@ -141,6 +141,22 @@ describe("OllamaHandler", () => {
 			})
 		})
 
+		it("should include format parameter when ollamaApiFormat is provided", async () => {
+			const handlerWithFormat = new OllamaHandler({
+				...mockOptions,
+				ollamaApiFormat: { type: "object", properties: { name: { type: "string" } } },
+			})
+			const result = await handlerWithFormat.completePrompt("Test prompt")
+			expect(result).toBe("Test response")
+			expect(mockCreate).toHaveBeenCalledWith({
+				model: mockOptions.ollamaModelId,
+				messages: [{ role: "user", content: "Test prompt" }],
+				temperature: 0,
+				stream: false,
+				format: { type: "object", properties: { name: { type: "string" } } },
+			})
+		})
+
 		it("should handle API errors", async () => {
 			mockCreate.mockRejectedValueOnce(new Error("API Error"))
 			await expect(handler.completePrompt("Test prompt")).rejects.toThrow("Ollama completion error: API Error")

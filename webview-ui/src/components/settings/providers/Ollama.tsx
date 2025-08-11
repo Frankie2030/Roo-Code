@@ -118,6 +118,33 @@ export const Ollama = ({ apiConfiguration, setApiConfigurationField }: OllamaPro
 					))}
 				</VSCodeRadioGroup>
 			)}
+			<VSCodeTextField
+				value={apiConfiguration?.ollamaApiFormat ? JSON.stringify(apiConfiguration.ollamaApiFormat) : ""}
+				onInput={(e) => {
+					const value = (e.target as HTMLInputElement).value.trim()
+					if (value === "") {
+						setApiConfigurationField("ollamaApiFormat", null)
+					} else {
+						try {
+							const parsed = JSON.parse(value)
+							setApiConfigurationField("ollamaApiFormat", parsed)
+						} catch (error) {
+							// Keep the raw string value for now, user is still typing
+							setApiConfigurationField("ollamaApiFormat", value)
+						}
+					}
+				}}
+				placeholder='{"type": "object", "properties": {"name": {"type": "string"}}, "required": ["name"]}'
+				className="w-full font-mono text-xs">
+				<label className="block font-medium mb-1">Structured Output Schema (Optional)</label>
+			</VSCodeTextField>
+			<div className="text-xs text-vscode-descriptionForeground mb-3">
+				Provide a JSON schema to enforce structured output from Ollama models. Leave empty for regular text
+				output. Example:{" "}
+				{
+					'{"type": "object", "properties": {"name": {"type": "string"}, "age": {"type": "number"}}, "required": ["name", "age"]}'
+				}
+			</div>
 			<div className="text-sm text-vscode-descriptionForeground">
 				{t("settings:providers.ollama.description")}
 				<span className="text-vscode-errorForeground ml-1">{t("settings:providers.ollama.warning")}</span>
