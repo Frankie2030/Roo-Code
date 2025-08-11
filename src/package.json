@@ -391,6 +391,14 @@
 					"type": "boolean",
 					"default": true,
 					"description": "%settings.useAgentRules.description%"
+				},
+				"roo-cline.ollamaApiFormat": {
+					"type": [
+						"object",
+						"null"
+					],
+					"default": null,
+					"description": "JSON schema format for structured output from Ollama models. Set to null to disable structured output. Example: {\"type\": \"object\", \"properties\": {\"name\": {\"type\": \"string\"}, \"age\": {\"type\": \"number\"}}, \"required\": [\"name\", \"age\"]}"
 				}
 			}
 		}
