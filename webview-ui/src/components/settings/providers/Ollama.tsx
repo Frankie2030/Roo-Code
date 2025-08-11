@@ -128,7 +128,7 @@ export const Ollama = ({ apiConfiguration, setApiConfigurationField }: OllamaPro
 						try {
 							const parsed = JSON.parse(value)
 							setApiConfigurationField("ollamaApiFormat", parsed)
-						} catch (error) {
+						} catch (_error) {
 							// Keep the raw string value for now, user is still typing
 							setApiConfigurationField("ollamaApiFormat", value)
 						}
